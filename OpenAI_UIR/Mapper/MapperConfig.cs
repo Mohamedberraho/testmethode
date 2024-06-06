@@ -4,5 +4,9 @@ namespace OpenAI_UIR.Mapper
 {
     public class MapperConfig : Profile
     {
+        public MapperConfig()
+        {
+
+        }
     }
 }
