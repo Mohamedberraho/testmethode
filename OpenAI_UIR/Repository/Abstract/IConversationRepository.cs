@@ -5,7 +5,7 @@ namespace OpenAI_UIR.Repository.Abstract
 {
     public interface IConversationRepository
     {
-        Task<Conversation> CreateConversation(Conversation conversation);
+        Task<Conversation> CreateConversationAsync(Conversation conversation);
         Task<Conversation> GetConversationAsync(Guid id);
     }
 }

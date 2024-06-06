@@ -14,7 +14,7 @@ namespace OpenAI_UIR.Repository.Implementation
         {
             _db = db;
         }
-        public async Task<Conversation> CreateConversation(Conversation conversation)
+        public async Task<Conversation> CreateConversationAsync(Conversation conversation)
         {
             await _db.Conversations.AddAsync(conversation);
             _db.SaveChanges();

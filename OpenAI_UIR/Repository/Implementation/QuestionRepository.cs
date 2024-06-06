@@ -13,7 +13,7 @@ namespace OpenAI_UIR.Repository.Implementation
         {
             _db = db;
         }
-        public async Task<Question> CreateQuestion(Question question)
+        public async Task<Question> CreateQuestionAsync(Question question)
         {
             await _db.Questions.AddAsync(question);
             await _db.SaveChangesAsync();
