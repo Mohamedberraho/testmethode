@@ -6,7 +6,7 @@ using OpenAI_UIR.Repository.Abstract;
 namespace OpenAI_UIR.Controllers
 {
     [ApiController]
-    [Route("")]
+    [Route("/Api/Conversation")]
     public class ConversationController
     {
         private readonly IConversationRepository _crepo;
