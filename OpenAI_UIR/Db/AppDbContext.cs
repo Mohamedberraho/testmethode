@@ -12,19 +12,16 @@ namespace OpenAI_UIR.Db
         public DbSet<Answer> Answers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            // Question and Answer
             modelBuilder.Entity<Question>()
-       
-                .HasOne(q => q.Conversation)
-                .WithMany(c => c.Questions)
-                .HasForeignKey(q => q.ConversationId)
-                .IsRequired();
-
-            modelBuilder.Entity<Answer>()
-                .HasOne(a => a.Question)
-                .WithOne(q => q.Answer)
-                .HasForeignKey<Answer>(a => a.QuestionId)
-                .IsRequired();
+                .HasOne(q => q.Answer)
+                .WithOne(q => q.Question)
+                .HasForeignKey<Answer>(q => q.QuestionId);
+            // Question and Conversation
+            modelBuilder.Entity<Question>()
+                .HasOne(q=>q.Conversation)
+                .WithMany(c=>c.Questions)
+                .HasForeignKey(q=>q.ConversationId);
 
             modelBuilder.Entity<Admin>().HasData(
                     new Admin()
