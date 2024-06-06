@@ -6,6 +6,6 @@ namespace OpenAI_UIR.Repository.Abstract
 {
     public interface IQuestionRepository
     {
-        Task<Question> CreateQuestion(QuestionDto questionDto);
+        Task<Question> CreateQuestion(Question question);
     }
 }

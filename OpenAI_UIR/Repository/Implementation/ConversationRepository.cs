@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OpenAI_UIR.Db;
 using OpenAI_UIR.Models;
 using OpenAI_UIR.Repository.Abstract;
@@ -18,6 +19,11 @@ namespace OpenAI_UIR.Repository.Implementation
             await _db.Conversations.AddAsync(conversation);
             _db.SaveChanges();
             return conversation;
+        }
+
+        public async Task<Conversation> GetConversationAsync(Guid id)
+        {
+            return await _db.Conversations.FirstOrDefaultAsync(c => c.Id == id);
         }
     }
 }

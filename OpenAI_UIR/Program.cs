@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using OpenAI_UIR.Db;
 using OpenAI_UIR.Repository.Abstract;
 using OpenAI_UIR.Repository.Implementation;
+using OpenAI_UIR.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ builder.Services.AddScoped<IAdminRepository,AdminRepository>();
 builder.Services.AddScoped<IConversationRepository,ConversationRepository>();
 builder.Services.AddScoped<IQuestionRepository,QuestionRepository>();
 builder.Services.AddScoped<IAnswerRepository,AnswerRepository>();
+builder.Services.AddScoped<OpenAIService>();
 //
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
