@@ -24,17 +24,25 @@ namespace OpenAI_UIR.Controllers
             _crepo = conversationRepository;
             _openAI = openAIService;
             _qrepo = questionRepository;
-
+            _response = new();
         }
         [HttpPost]
         public async Task<ActionResult<APIResponse>> CreateQuestion([FromBody] QuestionDto questionDto) {
+            if (questionDto == null || string.IsNullOrEmpty(questionDto.Question))
+            {
+                _response.CodeStatus = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
+                _response.ErrorMessages.Add("Invalid question data.");
+                return _response;
+            }
             Conversation conversation;
-            Guid conversationId;
-            if (Guid.TryParse(questionDto.ConversationId, out conversationId))
+            Guid conversationId = Guid.Parse(questionDto.ConversationId);
+            
+            if (await _crepo.GetConversationAsync(conversationId) == null)
             {
                 conversation = new Conversation
                 {
-                    Id = Guid.NewGuid(),
+                    Id = conversationId,
                     CreatedAt = DateTime.UtcNow,
                 };
                 await _crepo.CreateConversationAsync(conversation);
@@ -44,7 +52,10 @@ namespace OpenAI_UIR.Controllers
                 conversation = await _crepo.GetConversationAsync(conversationId);
                 if (conversation == null)
                 {
-                    throw new Exception("Conversation not found");
+                    _response.CodeStatus = HttpStatusCode.NotFound;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessages.Add("Conversation not found.");
+                    return _response;
                 }
             }
             Question question = new Question
@@ -53,21 +64,26 @@ namespace OpenAI_UIR.Controllers
                 QuestionContent = questionDto.Question,
                 CreatedAt = DateTime.UtcNow,
                 ConversationId = conversation.Id,
-                Conversation = conversation
             };
             await _qrepo.CreateQuestionAsync(question);
-            string response =await _openAI.GetAnswerAsync(question.QuestionContent , questionDto.Language);
+            string response = await _openAI.GetAnswerAsync(question.QuestionContent , questionDto.Language);
             Answer answer = new Answer
             {
                 Id = Guid.NewGuid(),
                 AnswerContent = response,
                 QuestionId = question.Id,
                 CreatedAt = DateTime.UtcNow,
-                Question = question
             };
             await _arepo.CreateAnswerAsync(answer);
             _response.CodeStatus = HttpStatusCode.OK;
             _response.IsSuccess = true;
+            _response.ErrorMessages.Add("Question and answer created successfully.");
+            _response.Result = new
+            {
+                Question = question,
+                Answer = answer,
+                ConversationId = conversation.Id
+            };
             return _response;
         }
     }

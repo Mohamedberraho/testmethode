@@ -23,7 +23,7 @@ namespace OpenAI_UIR.Repository.Implementation
 
         public async Task<Conversation> GetConversationAsync(Guid id)
         {
-            return await _db.Conversations.FirstOrDefaultAsync(c => c.Id == id);
+            return await _db.Conversations.Include(c=>c.Questions).ThenInclude(q => q.Answer).FirstOrDefaultAsync(c => c.Id == id);
         }
     }
 }
