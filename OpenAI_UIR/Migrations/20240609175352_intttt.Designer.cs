@@ -12,8 +12,8 @@ using OpenAI_UIR.Db;
 namespace OpenAI_UIR.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240606132548_updateRelations")]
-    partial class updateRelations
+    [Migration("20240609175352_intttt")]
+    partial class intttt
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,7 +50,7 @@ namespace OpenAI_UIR.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f8752470-e114-41ce-ab75-df6304df09c5"),
+                            Id = new Guid("931cf3b4-5ce1-48d1-a2e3-c39c8af54fc4"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Jobintech",
                             Password = "@Jobintech2024@",

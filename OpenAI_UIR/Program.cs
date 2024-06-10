@@ -7,8 +7,16 @@ using OpenAI_UIR.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<AppDbContext>(option=>option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+builder.Services.AddDbContext<AppDbContext>(option=>option.UseSqlServer(builder.Configuration.GetConnectionString("s"),
         sqlOptions => sqlOptions.EnableRetryOnFailure()), ServiceLifetime.Transient);
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        corsBuilder => corsBuilder.WithOrigins("http://localhost:5173")
+                                  .AllowAnyHeader()
+                                  .AllowAnyMethod()
+                                  .AllowCredentials());
+});
 // Regiter Repos
 builder.Services.AddScoped<IAdminRepository,AdminRepository>();
 builder.Services.AddScoped<IConversationRepository,ConversationRepository>();
@@ -26,10 +34,11 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
-{
+{   
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors("AllowSpecificOrigin");
 
 app.UseHttpsRedirection();
 

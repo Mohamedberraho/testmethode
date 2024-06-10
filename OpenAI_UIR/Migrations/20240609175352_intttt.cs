@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace OpenAI_UIR.Migrations
 {
     /// <inheritdoc />
-    public partial class ini : Migration
+    public partial class intttt : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -44,7 +44,7 @@ namespace OpenAI_UIR.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     QuestionContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ConversationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ConversationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -54,8 +54,7 @@ namespace OpenAI_UIR.Migrations
                         name: "FK_Questions_Conversations_ConversationId",
                         column: x => x.ConversationId,
                         principalTable: "Conversations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -81,7 +80,7 @@ namespace OpenAI_UIR.Migrations
             migrationBuilder.InsertData(
                 table: "Admins",
                 columns: new[] { "Id", "CreatedAt", "Name", "Password", "UserName" },
-                values: new object[] { new Guid("b974bcc6-3c72-4e22-9ad8-2a31551756ad"), new DateTime(2024, 6, 6, 12, 2, 15, 306, DateTimeKind.Utc).AddTicks(8930), "Jobintech", "@Jobintech2024@", "jobintech@jobintech-uir.ma" });
+                values: new object[] { new Guid("931cf3b4-5ce1-48d1-a2e3-c39c8af54fc4"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Jobintech", "@Jobintech2024@", "jobintech@jobintech-uir.ma" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_QuestionId",
